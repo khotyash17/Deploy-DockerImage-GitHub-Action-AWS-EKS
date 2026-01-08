@@ -1,0 +1,46 @@
+name: Deploy NodeApp to EKS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+#      - name: Login to Amazon ECR
+#        uses: aws-actions/amazon-ecr-login@v2
+
+#      - name: Build Docker image
+#        run: |
+#          IMAGE_TAG=${GITHUB_SHA::7}
+#          IMAGE_URI=${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG
+#          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+#          docker build -t $IMAGE_URI .
+
+#      - name: Push Docker image to ECR
+#        run: |
+#          docker push $IMAGE_URI
+
+#      - name: Update kubeconfig
+#        run: |
+#          aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
+
+#      - name: Deploy to EKS
+#        run: |
+#          kubectl apply -f k8s/deployment.yaml
+#          kubectl apply -f k8s/service.yaml
+#          kubectl set image deployment/nodeapp-deployment nodeapp-container=$IMAGE_URI
+#          kubectl rollout status deployment/nodeapp-deployment
