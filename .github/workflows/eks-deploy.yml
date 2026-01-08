@@ -30,13 +30,13 @@ jobs:
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
           docker build -t $IMAGE_URI .
 
-#      - name: Push Docker image to ECR
-#        run: |
-#          docker push $IMAGE_URI
+      - name: Push Docker image to ECR
+        run: |
+          docker push $IMAGE_URI
 
-#      - name: Update kubeconfig
-#        run: |
-#          aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
 
 #      - name: Deploy to EKS
 #        run: |
